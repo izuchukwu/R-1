@@ -1,0 +1,21 @@
+{
+  "name": "r-1",
+  "productName": "R-1",
+  "version": "0.0.1",
+  "description": "The Raspberry Pi modular instant camera system",
+  "main": "main.js",
+  "repository": "https://github.com/izuchukwu/r-1",
+  "author": "Izuchukwu",
+  "scripts": {
+    "start": "electron .",
+    "package": "run-s package-host package-rpi",
+    "package-host": "electron-packager . --overwrite --out=dist",
+    "package-rpi": "electron-packager . --arch=armv7l --platform=linux --out=dist"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^4.0.0",
+    "electron-packager": "^13.0.1",
+    "npm-run-all": "^4.1.5"
+  }
+}
