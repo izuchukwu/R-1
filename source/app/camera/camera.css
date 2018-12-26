@@ -1,0 +1,48 @@
+:root {
+    --navigation-bar-width: 100px;
+}
+
+.content {
+    position: absolute;
+    top: 0px;
+    left: var(--navigation-bar-width);
+    width: calc(100% - var(--navigation-bar-width));
+    height: 100%;
+}
+
+.r-bar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: var(--navigation-bar-width);
+    height: 100%;
+    -webkit-app-region: drag;
+}
+
+.navigation-button {
+    width: var(--navigation-bar-width);
+    height: var(--navigation-bar-width);
+    background-color: #555;
+}
+
+.status-bar {
+    width: var(--navigation-bar-width);
+    height: calc(100% - (2 * var(--navigation-bar-width)));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.status-bar-item {
+    width: var(--navigation-bar-width);
+}
+
+.status-bar-clock {
+    height: 50px;
+    width: 100%;
+    color: #fff;
+    font-size: 24pt;
+    font-family: "system";
+    text-align: center;
+}
