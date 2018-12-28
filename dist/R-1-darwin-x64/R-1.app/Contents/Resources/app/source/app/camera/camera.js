@@ -1,7 +1,8 @@
-const moment = require('moment')
 const remote = require('electron').remote
+const modulesDirectory = remote.require('./main').modulesDirectory()
+const moment = remote.require(modulesDirectory + 'moment')
 const remoteConsole = require('electron').remote.getGlobal('console')
-const settings = require('electron').remote.require('electron-settings')
+const settings = require('electron').remote.require(modulesDirectory + 'electron-settings')
 const {CameraButton} = require('./camera-button')
 // const {hasRPiSource} = require('../sources/rpi')
 // const {hasWebRTCSource} = require('../sources/webrtc')
