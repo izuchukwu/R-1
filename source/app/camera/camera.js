@@ -33,6 +33,7 @@ function initStatusBar() {
     statusBarItems = {}
     initClock()
     setTimeout(initStatusBarItems, 2000)
+}
 
 
 /* Navigation & Brightness */
