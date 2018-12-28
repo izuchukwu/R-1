@@ -1,9 +1,7 @@
 const remote = require('electron').remote
-// const modulesDirectory = remote.require('./main').modulesDirectory()
-// const moment = remote.require(modulesDirectory + 'moment')
 const moment = require('./moment')
 const remoteConsole = require('electron').remote.getGlobal('console')
-// const settings = require('electron').remote.require(modulesDirectory + 'electron-settings')
+const settings = require('electron-settings')
 const {CameraButton} = require('./camera-button')
 // const {hasRPiSource} = require('../sources/rpi')
 // const {hasWebRTCSource} = require('../sources/webrtc')
@@ -109,7 +107,7 @@ let clockIs24Hour, clockIs24HourObserver
 const clockIs24HourKeyPath = 'clock.is24Hour'
 
 function initClock() {
-    // clockIs24HourObserver = settings.watch(clockIs24HourKeyPath, updateClockSettings)
+    clockIs24HourObserver = settings.watch(clockIs24HourKeyPath, updateClockSettings)
 
     let clock = document.createElement('div')
     clock.classList.add('status-bar-item')
@@ -126,11 +124,11 @@ function initClock() {
 }
 
 function updateClockSettings() {
-    // if (!settings.has(clockIs24HourKeyPath)) {
-    //     settings.set(clockIs24HourKeyPath, false)
-    // }
-    //
-    // clockIs24Hour = settings.get(clockIs24HourKeyPath)
+    if (!settings.has(clockIs24HourKeyPath)) {
+        settings.set(clockIs24HourKeyPath, false)
+    }
+
+    clockIs24Hour = settings.get(clockIs24HourKeyPath)
     clockIs24Hour = true
 }
 
@@ -145,7 +143,7 @@ function bindAndTick(then) {
 }
 
 window.addEventListener('beforeunload', () => {
-    // if (clockIs24HourObserver) clockIs24HourObserver.dispose()
+    if (clockIs24HourObserver) clockIs24HourObserver.dispose()
 })
 
 /* Init */
