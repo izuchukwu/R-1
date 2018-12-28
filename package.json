@@ -10,11 +10,11 @@
     "start": "electron . --windowed",
     "package": "run-s package-host package-rpi",
     "package-host": "electron-packager . --overwrite --out=dist",
-    "package-rpi": "electron-packager . --arch=armv7l --platform=linux --out=dist"
+    "package-rpi": "electron-packager . --overwrite --arch=armv7l --platform=linux --out=dist"
   },
   "license": "MIT",
   "devDependencies": {
-    "electron": "^4.0.0",
+    "electron": "3.0.13",
     "electron-packager": "^13.0.1",
     "npm-run-all": "^4.1.5"
   },
