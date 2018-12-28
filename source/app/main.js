@@ -1,6 +1,20 @@
 const electron = require('electron')
 const {app, BrowserWindow, BrowserView} = require('electron')
 
+/* Renderer Require */
+
+let modulesDirectory
+exports.modulesDirectory = () => {
+    if (!modulesDirectory){
+        modulesDirectory = require.resolve('moment');
+        let directoryName = 'node_modules';
+        let pos = modulesDirectory.lastIndexOf(directoryName);
+        if(pos != -1)
+            modulesDirectory = modulesDirectory.substr(0, pos+directoryName.length+1);
+    }
+    return modulesDirectory
+}
+
 /* App */
 
 let camera
