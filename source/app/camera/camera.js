@@ -1,30 +1,112 @@
 const moment = require('moment')
+const remote = require('electron').remote
+const remoteConsole = require('electron').remote.getGlobal('console')
 const settings = require('electron').remote.require('electron-settings')
+const {CameraButton} = require('./camera-button')
+const {hasRPiSource} = require('../sources/rpi')
+const {hasWebRTCSource} = require('../sources/webrtc')
 
-let statusBar, statusBarItems
+/* Camera */
 
-let clockIs24Hour, clockIs24HourObserver
-let clockIs24HourKeyPath = 'clock.is24Hour'
-let clockIsVisibleObserver
-let clockIsVisibleKeyPath = 'clock.isVisible'
+function initCamera() {
+    // Load viewfinder
+    if (hasRPiSource()) {
+        remote.loadFileInCamera('../sources/rpi.html')
+    } else if (hasWebRTCSource()) {
+        remote.loadFileInCamera('../sources/webrtc.html')
+    }
+}
+
+/* R-Bar */
+
+function initRBar() {
+    initStatusBar()
+    initNavigationAndBrightness()
+}
 
 /* Status Bar */
 
-function startStatusBar() {
+let statusBar, statusBarItems
+
+function initStatusBar() {
     statusBar = document.getElementById('status-bar')
     statusBarItems = {}
-    startClock()
+    initClock()
+    setTimeout(initStatusBarItems, 2000)
+
+
+/* Navigation & Brightness */
+
+let navigationButton, navigationOption
+let brightnessButton, brightnessOption
+
+function initNavigationAndBrightness() {
+    navigationButton = new CameraButton({
+        button: document.getElementById('navigation-button'),
+        circle: document.getElementById('navigation-button-circle')
+    })
+    let navigationStates = ['settings', 'back']
+    navigationStates.forEach(icon => {
+        navigationButton.addState({
+            name: icon,
+            icon: `../../assets/camera-navigation-${icon}.svg`
+        })
+    })
+    navigationButton.switchToState('settings')
+
+    brightnessButton = new CameraButton({
+        button: document.getElementById('brightness-button'),
+        circle: document.getElementById('brightness-button-circle'),
+        action: advanceBrightness
+    })
+    let brightnessStates = ['low', 'mid', 'high']
+    brightnessStates.forEach(icon => {
+        brightnessButton.addState({
+            name: icon,
+            icon: `../../assets/camera-brightness-${icon}.svg`
+        })
+    })
+    brightnessButton.switchToState('mid')
 }
 
-startStatusBar()
+function setNavigationOption(option) {
+    // option: settings, back
+    navigationOption = option
+    navigationButton.switchToState(option)
+}
+
+function setBrightnessVisible(visible) {
+    brightnessButton.setVisible(visible)
+}
+
+function setBrightnessOption(option) {
+    // option: high, mid, low
+    brightnessOption = option
+    brightnessButton.switchToState(option)
+}
+
+function advanceBrightness() {
+    switch (brightnessOption) {
+        case 'high':
+            setBrightnessOption('low')
+            break
+        case 'mid':
+            setBrightnessOption('high')
+            break
+        default:
+        case 'low':
+            setBrightnessOption('mid')
+            break
+    }
+}
 
 /* Clock */
 
-function startClock() {
+let clockIs24Hour, clockIs24HourObserver
+const clockIs24HourKeyPath = 'clock.is24Hour'
+
+function initClock() {
     clockIs24HourObserver = settings.watch(clockIs24HourKeyPath, updateClockSettings)
-    clockIsVisibleObserver = settings.watch(clockIsVisibleKeyPath, updateClockSettings)
-    // Todo: Right now, this observer is never disposed
-    // To be fair, they're an app-life-long observer, but I digress
 
     let clock = document.createElement('div')
     clock.classList.add('status-bar-item')
@@ -44,14 +126,8 @@ function updateClockSettings() {
     if (!settings.has(clockIs24HourKeyPath)) {
         settings.set(clockIs24HourKeyPath, false)
     }
-    if (!settings.has(clockIsVisibleKeyPath)) {
-        settings.set(clockIsVisibleKeyPath, true)
-    }
 
     clockIs24Hour = settings.get(clockIs24HourKeyPath)
-    clockIsVisible = settings.get(clockIsVisibleKeyPath)
-
-    statusBarItems.clock.style.display = clockIsVisible ? 'block' : 'none'
 }
 
 function bindAndTick(then) {
@@ -63,3 +139,11 @@ function bindAndTick(then) {
     }
     tick()
 }
+
+window.addEventListener('beforeunload', () => {
+    if (clockIs24HourObserver) clockIs24HourObserver.dispose()
+})
+
+/* Init */
+
+initRBar()

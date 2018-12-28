@@ -52,7 +52,7 @@ function start() {
 /* Camera UI */
 
 exports.loadFileInCamera = (file) => {
-
+    camera.loadFile(file)
 }
 
 /* App Events */
