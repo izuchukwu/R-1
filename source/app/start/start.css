@@ -5,7 +5,7 @@
     height: 84px;
     top: calc(50% - (84px / 2) - 25px);
     left: calc(50% - (276px / 2) - 15px);
-    /* animation: fadein 0.25s; */
+    animation: fadein 0.25s;
 }
 
 @keyframes fadein {

@@ -31,6 +31,7 @@ function take() {
     context.fillStyle = "#AAA";
     context.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 
+
     let data = canvas.toDataURL('image/png');
     capture.setAttribute('src', data);
 }

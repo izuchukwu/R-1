@@ -1,3 +1,4 @@
+const electron = require('electron')
 const {app, BrowserWindow, BrowserView} = require('electron')
 
 /* App */
@@ -25,6 +26,10 @@ function start() {
         }
     })
 
+    // Menu bar is hidden by default. Hold Alt to show
+    win.setAutoHideMenuBar(true)
+    win.setMenuBarVisibility(true)
+
     win.loadFile('source/app/start/start.html')
     win.on('closed', () => {win = null})
 
@@ -46,7 +51,7 @@ function start() {
             width: true,
             height: true
         })
-    }, 2000)
+    }, 3000)
 }
 
 /* Camera UI */
