@@ -3,18 +3,18 @@ const remote = require('electron').remote
 const remoteConsole = require('electron').remote.getGlobal('console')
 const settings = require('electron').remote.require('electron-settings')
 const {CameraButton} = require('./camera-button')
-const {hasRPiSource} = require('../sources/rpi')
-const {hasWebRTCSource} = require('../sources/webrtc')
+// const {hasRPiSource} = require('../sources/rpi')
+// const {hasWebRTCSource} = require('../sources/webrtc')
 
 /* Camera */
 
 function initCamera() {
     // Load viewfinder
-    if (hasRPiSource()) {
-        remote.loadFileInCamera('../sources/rpi.html')
-    } else if (hasWebRTCSource()) {
-        remote.loadFileInCamera('../sources/webrtc.html')
-    }
+    // if (hasRPiSource()) {
+    //     remote.loadFileInCamera('../sources/rpi.html')
+    // } else if (hasWebRTCSource()) {
+    //     remote.loadFileInCamera('../sources/webrtc.html')
+    // }
 }
 
 /* R-Bar */
@@ -32,7 +32,8 @@ function initStatusBar() {
     statusBar = document.getElementById('status-bar')
     statusBarItems = {}
     initClock()
-    setTimeout(initStatusBarItems, 2000)
+    // setTimeout(initStatusBarItems, 2000)
+}
 
 
 /* Navigation & Brightness */

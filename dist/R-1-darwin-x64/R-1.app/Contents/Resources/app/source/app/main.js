@@ -28,7 +28,7 @@ function start() {
 
     // Menu bar is hidden by default. Hold Alt to show
     win.setAutoHideMenuBar(true)
-    win.setMenuBarVisibility(true)
+    win.setMenuBarVisibility(false)
 
     win.loadFile('source/app/start/start.html')
     win.on('closed', () => {win = null})
