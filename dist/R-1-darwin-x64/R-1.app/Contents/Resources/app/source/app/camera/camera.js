@@ -1,8 +1,7 @@
 const remote = require('electron').remote
-const modulesDirectory = remote.require('./main').modulesDirectory()
-const moment = remote.require(modulesDirectory + 'moment')
+const moment = require('./moment')
 const remoteConsole = require('electron').remote.getGlobal('console')
-const settings = require('electron').remote.require(modulesDirectory + 'electron-settings')
+const settings = require('electron-settings')
 const {CameraButton} = require('./camera-button')
 // const {hasRPiSource} = require('../sources/rpi')
 // const {hasWebRTCSource} = require('../sources/webrtc')
@@ -130,6 +129,7 @@ function updateClockSettings() {
     }
 
     clockIs24Hour = settings.get(clockIs24HourKeyPath)
+    clockIs24Hour = true
 }
 
 function bindAndTick(then) {
