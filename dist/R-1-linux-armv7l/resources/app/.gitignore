@@ -30,11 +30,9 @@ bower_components
 .lock-wscript
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
-build/Release
+# build/Release
 
-# Dependency directories
-node_modules/
-jspm_packages/
+# We do push dependencies so that the repo & dist can be used directly on an RPi without node npm/yarn
 
 # TypeScript v1 declaration files
 typings/

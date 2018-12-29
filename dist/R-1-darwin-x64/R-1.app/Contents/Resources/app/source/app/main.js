@@ -3,8 +3,8 @@ const {app, BrowserWindow, BrowserView} = require('electron')
 
 /* App */
 
-let camera
-const cameraNavigationWidth = 100
+let content
+const rbarWidth = 100
 
 function start() {
     let windowed = includesArgs(process.argv, '-w', '--windowed')
@@ -27,6 +27,7 @@ function start() {
     })
 
     // Menu bar is hidden by default. Hold Alt to show
+    // Note: won't work if launched without a cursor
     win.setAutoHideMenuBar(true)
     win.setMenuBarVisibility(false)
 
@@ -34,31 +35,31 @@ function start() {
     win.on('closed', () => {win = null})
 
     setTimeout(() => {
-        win.loadFile('source/app/camera/camera.html')
-        camera = new BrowserView({
+        win.loadFile('source/app/rbar/rbar.html')
+
+        content = new BrowserView({
             webPreferences: {
                 nodeIntegration: true
             }
         })
-        win.setBrowserView(camera)
-        camera.setBounds({
-            x:cameraNavigationWidth,
+        win.setBrowserView(content)
+        content.setBounds({
+            x: rbarWidth,
             y: 0,
-            width: windowSize.width - cameraNavigationWidth,
+            width: windowSize.width - rbarWidth,
             height: windowSize.height})
-        camera.webContents.loadFile('source/app/camera/camera-default.html')
-        camera.setAutoResize({
+        content.webContents.loadFile('source/app/sources/source-null.html')
+        content.setAutoResize({
             width: true,
             height: true
         })
     }, 3000)
 }
 
-/* Camera UI */
+/* R-Bar I/O */
 
-exports.loadFileInCamera = (file) => {
-    camera.loadFile(file)
-}
+exports.brightnessChanged = () => {}
+exports.openSettings = () => {}
 
 /* App Events */
 
