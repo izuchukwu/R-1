@@ -27,7 +27,7 @@ function initNavigationAndBrightness() {
             icon: `../../assets/rbar/rbar-navigation-${icon}.svg`
         })
     })
-    navigationButton.switchToState('settings')
+    setNavigationOption('settings')
 
     brightnessButton = new Button({
         button: document.getElementById('button-brightness'),
@@ -41,7 +41,7 @@ function initNavigationAndBrightness() {
             icon: `../../assets/rbar/rbar-brightness-${icon}.svg`
         })
     })
-    brightnessButton.switchToState('mid')
+    setBrightnessOption('mid')
 }
 
 function setNavigationOption(option) {

@@ -36,7 +36,7 @@
 .rbar-clock {
     width: var(--rbar-width);
     color: #fff;
-    font-family: rubik;
+    font-family: inter-ui;
     font-weight: 300;
     font-size: 20pt;
     text-align: center;

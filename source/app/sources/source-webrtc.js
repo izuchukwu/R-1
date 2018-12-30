@@ -35,3 +35,5 @@ function take() {
     let data = canvas.toDataURL('image/png');
     capture.setAttribute('src', data);
 }
+
+exports.source = WebRTCSource
