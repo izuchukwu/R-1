@@ -14,6 +14,7 @@ class Clock {
 
         this._clock = document.createElement('div')
         this._clock.classList.add('rbar-clock')
+        this._clock.classList.add('font-digits-tabular')
         this._container.appendChild(this._clock)
 
         this.bindAndTick(() => {

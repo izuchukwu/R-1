@@ -3,7 +3,7 @@ const {app, BrowserWindow, BrowserView} = require('electron')
 
 /* App */
 
-let content
+let win, content
 const rbarWidth = 100
 
 function start() {
@@ -15,7 +15,7 @@ function start() {
         height: 480
     } : electron.screen.getPrimaryDisplay().workAreaSize
 
-    let win = new BrowserWindow({
+    win = new BrowserWindow({
         width: windowSize.width,
         height: windowSize.height,
         titleBarStyle: 'hidden',
@@ -27,7 +27,6 @@ function start() {
     })
 
     // Menu bar is hidden by default. Hold Alt to show
-    // Note: won't work if launched without a cursor
     win.setAutoHideMenuBar(true)
     win.setMenuBarVisibility(false)
 
@@ -43,23 +42,55 @@ function start() {
             }
         })
         win.setBrowserView(content)
+
         content.setBounds({
             x: rbarWidth,
             y: 0,
             width: windowSize.width - rbarWidth,
             height: windowSize.height})
-        content.webContents.loadFile('source/app/sources/source-null.html')
         content.setAutoResize({
             width: true,
             height: true
         })
+        content.webContents.loadFile('source/app/sources/source-null.html')
     }, 3000)
 }
 
 /* R-Bar I/O */
 
-exports.brightnessChanged = () => {}
-exports.openSettings = () => {}
+let brightnessOption, navigationOption
+
+exports.initNavigationAndBrightnessState = () => {
+    setBrightnessOption('mid')
+    setNavigationOption('settings')
+}
+
+exports.brightnessTapped = () => {
+    switch (brightnessOption) {
+        case 'high':
+            setBrightnessOption('low')
+            break
+        case 'low':
+            setBrightnessOption('mid')
+            break
+        default:
+        case 'mid':
+            setBrightnessOption('high')
+            break
+    }
+}
+
+function setBrightnessOption(option) {
+    brightnessOption = option
+    win.webContents.executeJavaScript(`setBrightnessOption('${brightnessOption}')`)
+}
+
+exports.navigationTapped = () => {}
+
+function setNavigationOption(option) {
+    navigationOption = option
+    win.webContents.executeJavaScript(`setNavigationOption('${navigationOption}')`)
+}
 
 /* App Events */
 

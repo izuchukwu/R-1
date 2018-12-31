@@ -1,13 +1,22 @@
-.viewfinder, .capture, .flash, .canvas {
+body {
+    background-color: '#000';
+}
+
+.viewfinder, .capture, .canvas {
     position: relative;
+    /* object-fit: cover; */ /* aspect fill */
+    object-fit: contain;
     width: 100%;
     height: 100%;
     top: 0px;
     left: 0px;
+    background-color: '#000';
 }
 
 .capture {
-    background-color: #111;
+    position: absolute;
+    visibility: collapse;
+    background-color: '#000';
 }
 
 .flash {

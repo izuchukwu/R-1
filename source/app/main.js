@@ -34,7 +34,7 @@ function start() {
     win.on('closed', () => {win = null})
 
     setTimeout(() => {
-        win.loadFile('source/app/rbar/rbar.html')
+        startRBar()
 
         content = new BrowserView({
             webPreferences: {
@@ -53,10 +53,23 @@ function start() {
             height: true
         })
         content.webContents.loadFile('source/app/sources/source-null.html')
+
+        startViewfinder()
     }, 3000)
 }
 
+/* Camera */
+
+function startViewfinder() {
+    content.webContents.loadFile('source/app/sources/source-webrtc.html')
+    // content.webContents.openDevTools()
+}
+
 /* R-Bar I/O */
+
+function startRBar() {
+    win.loadFile('source/app/rbar/rbar.html')
+}
 
 let brightnessOption, navigationOption
 

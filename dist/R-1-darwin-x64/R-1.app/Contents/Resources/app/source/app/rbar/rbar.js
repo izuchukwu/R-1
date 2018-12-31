@@ -1,5 +1,6 @@
 const remote = require('electron').remote
-const remoteConsole = require('electron').remote.getGlobal('console')
+const main = remote.require('./main')
+const remoteConsole = remote.getGlobal('console')
 const {Button} = require('./rbar-button')
 const {Clock} = require('./rbar-clock')
 
@@ -27,12 +28,11 @@ function initNavigationAndBrightness() {
             icon: `../../assets/rbar/rbar-navigation-${icon}.svg`
         })
     })
-    setNavigationOption('settings')
 
     brightnessButton = new Button({
         button: document.getElementById('button-brightness'),
         circle: document.getElementById('circle-button-brightness'),
-        action: advanceBrightness
+        action: brightnessTapped
     })
     let brightnessStates = ['low', 'mid', 'high']
     brightnessStates.forEach(icon => {
@@ -41,13 +41,17 @@ function initNavigationAndBrightness() {
             icon: `../../assets/rbar/rbar-brightness-${icon}.svg`
         })
     })
-    setBrightnessOption('mid')
+
+    main.initNavigationAndBrightnessState()
 }
 
 function setNavigationOption(option) {
     // option: settings, back
-    navigationOption = option
     navigationButton.switchToState(option)
+}
+
+function brightnessTapped() {
+    main.brightnessTapped()
 }
 
 function setBrightnessVisible(visible) {
@@ -56,23 +60,7 @@ function setBrightnessVisible(visible) {
 
 function setBrightnessOption(option) {
     // option: high, mid, low
-    brightnessOption = option
     brightnessButton.switchToState(option)
-}
-
-function advanceBrightness() {
-    switch (brightnessOption) {
-        case 'high':
-            setBrightnessOption('low')
-            break
-        case 'mid':
-            setBrightnessOption('high')
-            break
-        default:
-        case 'low':
-            setBrightnessOption('mid')
-            break
-    }
 }
 
 /* Clock */

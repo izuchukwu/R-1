@@ -4,13 +4,12 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" href="../common.css">
         <link rel="stylesheet" href="source-common.css">
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:">
     </head>
     <body>
+        <img id="capture" class="capture"/>
         <video id="viewfinder" class="viewfinder"></video>
         <canvas id="canvas" class="canvas"></canvas>
-        <div id="flash" class="flash"></div>
-        <div id="capture" class="capture"></div>
-        <script src="webrtc.js"></script>
+        <script src="source-webrtc.js"></script>
     </body>
 </html>
